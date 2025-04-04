@@ -1,10 +1,17 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { getLinkedListData } from "../apiService/apiService";
 
-const LinkedLists: React.FC = () => {
+const LinkedLists = () => {
+  const [list, setList] = useState(null);
+
+  useEffect(() => {
+    getLinkedListData().then((data) => setList(data));
+  }, []);
+
   return (
-    <div className="p-6 text-center">
-      <h2 className="text-2xl font-bold">Listas Encadeadas</h2>
-      <p className="mt-4 text-gray-600">Implementação de listas auto-organizáveis e Skip Lists.</p>
+    <div>
+      <h1>Visualização de Lista Encadeada</h1>
+      <pre>{JSON.stringify(list, null, 2)}</pre>
     </div>
   );
 };

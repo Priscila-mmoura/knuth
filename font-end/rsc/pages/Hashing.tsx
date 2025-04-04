@@ -1,10 +1,17 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { getHashingData } from "../apiService/apiService";
 
-const Hashing: React.FC = () => {
+const Hashing = () => {
+  const [hashTable, setHashTable] = useState(null);
+
+  useEffect(() => {
+    getHashingData().then((data) => setHashTable(data));
+  }, []);
+  
   return (
-    <div className="p-6 text-center">
-      <h2 className="text-2xl font-bold">Estratégias de Hashing</h2>
-      <p className="mt-4 text-gray-600">Comparação de métodos de hashing avançados, incluindo hashing universal e perfeito.</p>
+    <div>
+      <h1>Visualização de Hashing</h1>
+      <pre>{JSON.stringify(hashTable, null, 2)}</pre>
     </div>
   );
 };

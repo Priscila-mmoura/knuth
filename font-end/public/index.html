@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benchmark de Estruturas de Dados</title>
+</head>
+<body>
+    <h1>Benchmark de Estruturas de Dados</h1>
+    <div id="benchmark-container">Carregando...</div>
+
+    <script>
+        async function fetchBenchmarkData() {
+            try {
+                const response = await fetch("http://localhost:3000/benchmark");
+                const data = await response.json();
+                displayBenchmark(data);
+            } catch (error) {
+                document.getElementById("benchmark-container").innerHTML = "<p>Erro ao carregar dados.</p>";
+                console.error("Erro ao buscar benchmark:", error);
+            }
+        }
+
+        function displayBenchmark(benchmark) {
+            let html = `<h2>${benchmark.testCase}</h2><ul>`;
+            benchmark.results.forEach(result => {
+                html += `<li><strong>${result.structure}</strong> - Tempo: ${result.timeMs}ms, Memória: ${result.memoryKb}kb</li>`;
+            });
+            html += "</ul>";
+            document.getElementById("benchmark-container").innerHTML = html;
+        }
+
+        fetchBenchmarkData();
+    </script>
+</body>
+</html>

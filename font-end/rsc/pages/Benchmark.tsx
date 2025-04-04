@@ -1,10 +1,30 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { getBenchmarkData } from "../apiService/apiService";
 
-const Benchmark: React.FC = () => {
+const Benchmark = () => {
+  const [benchmark, setBenchmark] = useState(null);
+
+  useEffect(() => {
+    getBenchmarkData().then((data) => setBenchmark(data));
+  }, []);
+
   return (
-    <div className="p-6 text-center">
-      <h2 className="text-2xl font-bold">Benchmarking</h2>
-      <p className="mt-4 text-gray-600">Testes de desempenho e análise estatística entre diferentes estruturas.</p>
+    <div>
+      <h1>Benchmark de Estruturas de Dados</h1>
+      {benchmark ? (
+        <div>
+          <h2>{benchmark.testCase}</h2>
+          <ul>
+            {benchmark.results.map((result, i) => (
+              <li key={i}>
+                <strong>{result.structure}</strong> - Tempo: {result.timeMs}ms, Memória: {result.memoryKb}kb
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>Carregando...</p>
+      )}
     </div>
   );
 };
